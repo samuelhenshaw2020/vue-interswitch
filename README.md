@@ -1,16 +1,191 @@
-# Vue 3 + TypeScript + Vite
+# Interswitch Component for Vue 3.x
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+[![Issues](	https://img.shields.io/github/issues/samuelhenshaw2020/vue-interswitch)](https://github.com/samuelhenshaw2020/vue-interswitch/issues)
+[![Forks](	https://img.shields.io/github/forks/samuelhenshaw2020/vue-interswitch)](https://github.com/samuelhenshaw2020/vue-interswitch/network/members)
+[![Stars](	https://img.shields.io/github/stars/samuelhenshaw2020/vue-interswitch)](https://github.com/samuelhenshaw2020/vue-interswitch/stargazers)
+[![Pull Request](https://img.shields.io/github/issues-pr/samuelhenshaw2020/vue-interswitch)](https://github.com/samuelhenshaw2020/vue-interswitch/stargazers)
+[![Stats](https://img.shields.io/github/watchers/samuelhenshaw2020/vue-interswitch)](https://github.com/samuelhenshaw2020/vue-interswitch/stargazers)
 
-## Recommended IDE Setup
+> Interswitch community vue package that integrates with vue apps for Quickteller Business for recieve payments online.
+> 
+**Note**: You need a [Quickteller Business](https://business.quickteller.com) to obtain the required `code/keys`.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+![Demo Image](interswitch.png?raw=true "Demo Image")
 
-## Type Support For `.vue` Imports in TS
+## Installation
+To install, run:
+```bash
+npm install vue-interswitch
+```
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+## Usage
+Below are the various implementation using options or composition api
+```js
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+// COMPOSITION API with defineComponent (Typescipt)
+<script lang="ts">
+import Interswitch from 'vue-interswitch';
+import {defineComponent} from "vue"
+export default defineComponent({
+  components: {
+    Interswitch
+  },
+  setup(){
+    
+    const onCallback = (response)=>{
+      console.log(response)
+    }
+    return {onCallback}
+  }
+});
+</script>
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+// COMPOSITION API 2 (Typescipt)
+
+<script lang="ts" setup>
+    import Interswitch from 'vue-interswitch';
+    const onCallback = (response)=>{
+      console.log(response)
+    }
+  
+</script>
+
+// OPTIONS API
+
+<script>
+    import Interswitch from 'vue-interswitch';
+    export default {
+        components: {
+            Interswitch
+        },
+        methods: {
+            onCallback(response){
+                console.log(response)
+            }
+        }
+    }
+</script>
+
+
+```
+
+The template will look as seen below
+
+```js
+<template>
+  <main>
+      <Interswitch  
+        merchantCode='MX26070'
+        payItemID='Default_Payable_MX26070'
+        customerEmail='johndoe@gmail.com'
+        redirectURL="http://localhost:3000"
+        text="Pay Now"
+        mode='TEST'
+        :transactionReference="Date.now().toString()" 
+        :amount="10000"
+        class="custom, bootstrap or tailwind class here"
+        :callback="onCallback"
+    />
+  </main>
+</template> 
+```
+
+## Handle Error Event
+To handle errors, an event is emitted when there is an error, hence binding an `function` to handle the error and get the error message or error stack trace (for `debug=true` mode only). Below is a guide
+
+
+**Note**: to get dev level error with stack trace set `debug=true` on the `<Interswitch :debug="true" />` component then bind a function to the emitter event 
+
+```js
+    /**
+     * In your template
+     * debug=true mode is not needed for production
+     * the error message is automatically 
+     * "Payment failed! check network and try again"
+     * 
+     * */
+    <Interswitch :debug="true" @error="onError" />
+
+    //within your script
+    const onError = (err) => { //composition api
+      console.log(err)
+    }
+
+    //do accordingly for options api
+
+```
+
+
+
+
+
+**Note:**
+ - `debug=true` is not needed for `production` as `debug` is automatically false if not included.
+ - **merchantCode** and **payItemID** can be gotten on your [Quickteller Business dashboard](https://business.quickteller.com/developertools)
+ - **amount** must be in kobo
+
+
+
+## Parameters
+Below is a list of all the supported parameters.
+
+| Parameters           | Data Type                 | Required | Description                                                                                                                                                                                                                                         |
+|----------------------|---------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| merchantCode         | string                   | true     | This can be found on your dashboard.
+| payItemID            | string                   |  true    | This can be found on your dashboard.
+| customerEmail        | string                   | true     | The email of the person making the payment.                                                                                                                                                                                                         |
+| amount               | string                    | true     | The cost of the item being paid for in kobo.                                                                                                                                                                                                        |
+| transactionReference | string                    | true    | This is a unique reference string required for every transaction. You can create a method to generate this. |
+| text      | string                    |  true   |  This represents the text on the payment button.
+| mode      | string                    | true    | This represents your integration mode. It can be 'TEST' or 'LIVE'.
+| callback  | function                  | true    | This function is called after every transaction.
+| redirectURL | string                  | false   | The url you want the user to be redirected to after a transaction.
+| currency             | string                    | false    | The ISO code of the currency being used. If this field is not added, the currency naira is assumed.                                                                                                                                                 |
+| customerName         | string                    | false    | The name of the person making the payment.                                                                                                                                                                                                          |
+| customerID           | string                    | false    | The ID of the person making the payment.                                                                                                                                                                                                            |
+| customerMobileNo           | string                    | false    | The mobile number of the person making the payment.                                                                                                                                                                                                            |
+|payItemName            | string                    | false   | The name of the item being paid for. |                                                                                   |                                                                                     |
+| className             | string                    | false   | You can use this to add a CSS class to the payment button.
+|  style                | object                    | false    | You can use this to add inline styles to the payment button.
+
+
+## Response Sample
+
+After a transaction, a sample response from the callback function will be like so:
+```js
+{
+    bpTrxnRef: "",
+    bpResp: "",
+    rechPin: "",
+    amount: 10000,
+    apprAmt: 10000,
+    cardNum: "",
+    desc: "Approved by Financial Institution",
+    mac: "",
+    payRef: "FBN|WEB|MX26070|13-04-2021|3512130|866194",
+    resp: "00",
+    retRef: "000106923853",
+    txnref: "1618305656700",
+    url: "http://localhost:3000",
+}
+```
+
+if within your response, `desc` messsage reads `MERCHANT_OR_PAYMENT_ITEM_DOES_NOT_EXIST` and other fields shows `undefined` it implies information supplied might not be correct.
+
+
+**NOTE:**
+The key 'resp' gives the final status of the transaction.  
+There are quite a number of response codes that can be returned, the full list can be viewed [here](https://sandbox.interswitchng.com/docbase/docs/webpay/response-codes/)
+
+## - Handling the Response 
+For integrity purpose, you are advised to make a server side request to get the final status of a transaction before giving value.
+To do this, make a post request to the endpoint below:
+##### Test mode: #####
+https://qa.interswitchng.com/collections/api/v1/gettransaction.json?merchantcode={MERCHANT_CODE}&transactionreference={TRANSACTION_REFERENCE}&amount={AMOUNT_IN_KOBO}
+##### Live mode: #####
+https://webpay.interswitchng.com/collections/api/v1/gettransaction.json?merchantcode={MERCHANT_CODE}&transactionreference={TRANSACTION_REFERENCE}&amount={AMOUNT_IN_KOBO}
+
+
+
+ ## License 
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

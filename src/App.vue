@@ -6,6 +6,7 @@ export default defineComponent({
     Interswitch
   },
   setup(){
+    
     const onCallback = (response)=>{
       console.log(response)
     }
@@ -13,6 +14,7 @@ export default defineComponent({
     const onError = (err) => {
       console.log(err)
     }
+
     return {onCallback, onError}
   }
 });

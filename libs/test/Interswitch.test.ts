@@ -1,4 +1,0 @@
-
-describe("Interswitch component render", () => {
-
-})
