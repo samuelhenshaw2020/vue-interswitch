@@ -7,11 +7,11 @@ export default defineComponent({
   },
   setup(){
     
-    const onCallback = (response)=>{
+    const onCallback = (response: any)=>{
       console.log(response)
     }
 
-    const onError = (err) => {
+    const onError = (err: any) => {
       console.log(err)
     }
 

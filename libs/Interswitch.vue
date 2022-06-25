@@ -10,12 +10,12 @@
     import scriptLoader from "./scriptLoader";
 
 
-    declare var window: _Window;
+    var window: _Window;
 
-    export interface PaymentOptions  {
+    interface PaymentOptions  {
         merchantCode: string,
         payItemID: string,
-        amount: string,
+        amount: number,
         customerEmail: string,
         mode: string,
         transactionReference: string,
@@ -48,18 +48,18 @@
         }
 
         const _paymentOptions = {
-            merchant_code: paymentOptions.merchantCode.value,
-            pay_item_id: paymentOptions.payItemID.value,
+            merchant_code: paymentOptions.merchantCode.value || "",
+            pay_item_id: paymentOptions.payItemID.value || "",
             amount: paymentOptions.amount.value,
-            site_redirect_url: paymentOptions.redirectURL.value,
+            site_redirect_url: paymentOptions.redirectURL.value || "",
             onComplete: paymentOptions.callback.value,
             mode: paymentOptions.mode.value || 'TEST',
             txn_ref: paymentOptions.transactionReference.value,
             currency: paymentOptions.currency.value || '566',
             pay_item_name: paymentOptions.payItemName.value,
             cust_name: paymentOptions.customerName.value || '',
-            cust_email: paymentOptions.customerEmail.value,
-            cust_id: paymentOptions.customerID.value,
+            cust_email: paymentOptions.customerEmail.value || "",
+            cust_id: paymentOptions.customerID.value || "",
             cust_mobile_no: paymentOptions.customerMobileNo.value || ''
         }
 
@@ -72,7 +72,7 @@
 
 
     onBeforeMount(() => {
-        scriptLoader({mode: paymentOptions.mode.value}, (err, status) =>{
+        scriptLoader(paymentOptions.mode.value, (err: any, status: boolean) =>{
             if(err) throw new Error("Payment script load failed")
             loadstate.value.loaded = status;
         });

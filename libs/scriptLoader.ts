@@ -6,7 +6,7 @@ import {Modes} from "./interface";
  * @param callback with two parameter @param {Error} err and @param {boolean} status
  */
 
-const scriptLoader =  (mode, callback): void =>{
+const scriptLoader =  (mode: string, callback: Function): void =>{
     const script = document.createElement('script')
 
     script.src = (
