@@ -1,0 +1,4 @@
+
+describe("Interswitch component render", () => {
+
+})
