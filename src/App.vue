@@ -1,6 +1,6 @@
 <script lang="ts">
 import Interswitch from '../libs';
-import {defineComponent} from "vue"
+import {defineComponent, inject} from "vue"
 export default defineComponent({
   components: {
     Interswitch
@@ -15,7 +15,27 @@ export default defineComponent({
       console.log(err)
     }
 
-    return {onCallback, onError}
+    const props = {
+    merchantCode: 'MX93271',
+    payItemID: 'Default_Payable_MX93271',
+    customerEmail: 'samuelhenshaw2021@gmail.com',
+    redirectURL: 'http://localhost:3000',
+    text: 'Pay Now',
+    mode: 'TEST',
+    transactionReference: Date.now().toString(),
+    amount: 100,
+    callback: (response: any) => {
+      console.log('response: ', response)
+    }
+    }
+
+    const {iswCheckout} = inject("iswCheckout")
+    const Paynow = () => {
+      iswCheckout(props)
+    }
+
+    
+    return {onCallback, onError,Paynow,}
   }
 });
 </script>
@@ -23,7 +43,7 @@ export default defineComponent({
 <template>
   <main class="text-center">
       <h1 class="text-danger">Interswitch Payment </h1>
-      <Interswitch  
+      <!-- <Interswitch  
         merchantCode='MX93271'
         payItemID='Default_Payable_MX93271'
         customerEmail='samuelhenshaw2021@gmail.com'
@@ -37,7 +57,9 @@ export default defineComponent({
         :callback="onCallback"
         @error="onError"
         
-    />
+    /> -->
+
+    <button @click="Paynow">pay now</button>
     
   </main>
 </template>

@@ -5,8 +5,10 @@
 </template>
 
 <script lang="ts" setup>
-    import {ref, onBeforeMount, toRefs, onUnmounted, onMounted, defineEmits} from "vue";
-    import scriptLoader from "./scriptLoader";
+    import {ref, onBeforeMount, toRefs, defineEmits } from "vue";
+    import useScriptLoader from "./useScriptLoader";
+
+
 
     interface _Window extends Window {
         webpayCheckout(paymentOption: any): void
@@ -35,8 +37,9 @@
         text?: string
         debug?: boolean,
         disableAutoKobo?: boolean
-
     }
+
+   
 
     const props = defineProps<PaymentOptions>();
     const paymentOptions = toRefs<PaymentOptions>(props);
@@ -79,7 +82,7 @@
 
     async function Initialize(){
         try {
-            readyState.value =  await scriptLoader(paymentOptions.mode.value);
+            readyState.value =  await useScriptLoader(paymentOptions.mode.value);
         } catch (error) {
             readyState.value = false;
             emit('error', "Payment could not be initialized");
@@ -88,15 +91,7 @@
 
 
     onBeforeMount(() => {
-        Initialize()
-    })
-
-    onMounted(() => {
-       
-    })
-
-    onUnmounted(() => {
-      
-    })
+        Initialize();
+    });
     
 </script>

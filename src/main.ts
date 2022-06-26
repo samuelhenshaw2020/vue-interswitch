@@ -1,4 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import {InterswitchPlugin} from "../libs"
 
-createApp(App).mount('#app')
+const app = createApp(App);
+app.use(InterswitchPlugin, {disableAutoKobo: false})
+
+app.mount('#app')

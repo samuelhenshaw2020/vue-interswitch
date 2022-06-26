@@ -1,7 +1,8 @@
 {
   "name": "vue-interswitch",
   "files": [
-    "dist"
+    "dist",
+    "dist/*.d.ts"
   ],
   "main": "./dist/interswitch.umd.js",
   "module": "./dist/interswitch.es.js",
@@ -45,4 +46,5 @@
     "node": ">=10"
   },
   "homepage": "https://github.com/iamraphson/vue-interswitch#readme"
+  
 }

@@ -1,5 +1,5 @@
 
-
+import {onMounted, onUnmounted} from 'vue'
 /**
  * @desciption Loads the script necessary for payment to be initialized
  * @param {string} mode Payment mode can be TEST for development or LIVE for production
@@ -11,7 +11,7 @@
     LIVE="LIVE"
 }
 
-const scriptLoader =  (mode: string): Promise<boolean> =>{
+const useScriptLoader =  (mode: string): Promise<boolean> =>{
     return new Promise((resolve, reject) => {
         const script = document.createElement('script')
 
@@ -25,19 +25,17 @@ const scriptLoader =  (mode: string): Promise<boolean> =>{
     
         document.getElementsByTagName("head")[0].appendChild(script)
 
-        const onLoad = () => {
-            script.removeEventListener('load', onLoad); //clean up
-            resolve(true)
-        }
+        const onLoad = () => {resolve(true)}
         script.addEventListener('load',  onLoad);
 
-        const onError = (err) => {
-            script.removeEventListener('error', onError); //clean up
-            reject(err)
-        }
+        const onError = (err: any) => {reject(err)}
         script.addEventListener('error', onError)
-       
+        
+        onUnmounted(() => {
+            script.removeEventListener('error', onError);
+            script.removeEventListener('load', onLoad);
+        });
     });
 }
 
-export default scriptLoader;
+export default useScriptLoader;
