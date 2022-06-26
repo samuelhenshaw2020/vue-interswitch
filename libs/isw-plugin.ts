@@ -1,12 +1,11 @@
+import { AppContext } from "vue";
 import useScriptLoader from "./isw-loader";
 
 interface _Window extends Window {
     webpayCheckout(paymentOption: any): void
 }
 
-interface ISWPluginOptions {
-    disableAutoKobo?: boolean
-}
+
 
 interface ISWPluginPaymentOptions  {
     merchantCode: string,
@@ -30,7 +29,12 @@ declare var window: _Window;
 
 
 export default {
-    install(app: any, options: ISWPluginOptions){
+    /**
+     * 
+     * @param {any} app Vue app context
+     * @param {never} options No options is required
+     */
+    install(app: any, options: any){
         const iswCheckout = async (paymentOptions: ISWPluginPaymentOptions) => {
             return new Promise(async (resolve, reject) => {
                 try {

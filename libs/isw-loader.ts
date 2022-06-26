@@ -1,17 +1,18 @@
 
-import {onMounted, onUnmounted} from 'vue'
+import {onUnmounted} from 'vue';
+
+enum Modes {
+    TEST="TEST",
+    LIVE="LIVE"
+}
+
 /**
  * @desciption Loads the script necessary for payment to be initialized
  * @param {string} mode Payment mode can be TEST for development or LIVE for production
  * @param callback with two parameter @param {Error} err and @param {boolean} status
  */
 
- export enum Modes {
-    TEST="TEST",
-    LIVE="LIVE"
-}
-
-const useScriptLoader =  (mode: string): Promise<boolean> =>{
+const useScriptLoader =  (mode: string): Promise<boolean> => {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script')
 

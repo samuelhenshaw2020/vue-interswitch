@@ -104,8 +104,7 @@
         try {
           window.webpayCheckout(_paymentOptions);
         } catch (error) {
-            console.log(error)
-          emit('error', paymentOptions.value.debug == true ? error : "Payment failed! check network and try again"); 
+            emit('error', paymentOptions.value.debug == true ? error : "Payment failed! check network and try again"); 
         }
     }
 
