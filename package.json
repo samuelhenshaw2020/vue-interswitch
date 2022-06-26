@@ -2,7 +2,7 @@
   "name": "vue-interswitch",
   "files": [
     "dist",
-    "dist/*.d.ts"
+    "dist/**/*.d.ts"
   ],
   "main": "./dist/interswitch.umd.js",
   "module": "./dist/interswitch.es.js",
@@ -10,7 +10,7 @@
     "import": "./dist/interswitch.es.js",
     "require": "./dist/interswitch.umd.js"
   },
-  "types": "dist/@types/**/*.d.ts",
+  "types": "dist/index.d.ts",
   "private": true,
   "version": "0.0.0",
   "scripts": {

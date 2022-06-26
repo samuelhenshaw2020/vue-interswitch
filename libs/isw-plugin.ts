@@ -37,12 +37,10 @@ export default {
 
                     await useScriptLoader(paymentOptions.mode);
 
-                    const koboMultiple = (options.disableAutoKobo === true ? 1 : 100);
-    
                     const _paymentOptions = {
                         merchant_code: paymentOptions.merchantCode || "",
                         pay_item_id: paymentOptions.payItemID || "",
-                        amount: paymentOptions.amount * koboMultiple,
+                        amount: paymentOptions.amount,
                         site_redirect_url: paymentOptions.redirectURL || "",
                         onComplete: paymentOptions.callback,
                         mode: paymentOptions.mode || 'TEST',

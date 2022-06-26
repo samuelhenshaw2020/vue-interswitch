@@ -4,6 +4,8 @@
     </button>
 </template>
 
+
+
 <script lang="ts" setup>
     import {ref, onBeforeMount, defineEmits } from "vue";
     import useScriptLoader from "./isw-loader";
@@ -11,11 +13,8 @@
     interface _Window extends Window {
         webpayCheckout(paymentOption: any): void
     }
-
-    var window: _Window;
-
-
-
+    
+    declare var window: _Window;
 
     interface PaymentOptions  {
         merchantCode: string,
@@ -39,9 +38,6 @@
         debug?: boolean,
         disableAutoKobo?: boolean
     }
-    
-
-   
 
     const props = defineProps<PaymentOptions>();
     
