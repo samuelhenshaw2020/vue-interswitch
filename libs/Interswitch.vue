@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
     import {ref, onBeforeMount, toRefs, defineEmits } from "vue";
-    import useScriptLoader from "./useScriptLoader";
+    import useScriptLoader from "./isw-loader";
 
 
 

@@ -1,4 +1,4 @@
-import useScriptLoader from "./useScriptLoader";
+import useScriptLoader from "./isw-loader";
 
 interface _Window extends Window {
     webpayCheckout(paymentOption: any): void
@@ -32,7 +32,6 @@ declare var window: _Window;
 export default {
     install(app: any, options: ISWPluginOptions){
         const iswCheckout = async (paymentOptions: ISWPluginPaymentOptions) => {
-            console.log("hensahw")
             return new Promise(async (resolve, reject) => {
                 try {
 
