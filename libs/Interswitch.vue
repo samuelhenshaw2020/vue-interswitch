@@ -1,16 +1,18 @@
 <template>
-    <button @click="initPayment">
+    <button @click="MakePayment" :disabled="!readyState">
         <slot>{{props.text}}</slot>
     </button>
 </template>
 
 <script lang="ts" setup>
-    import {ref, defineProps, onBeforeMount, toRefs, onUnmounted, onMounted, defineEmits} from "vue";
-    import { _Window} from "./interface"
+    import {ref, onBeforeMount, toRefs, onUnmounted, onMounted, defineEmits} from "vue";
     import scriptLoader from "./scriptLoader";
 
+    interface _Window extends Window {
+        webpayCheckout(paymentOption: any): void
+    }
 
-    var window: _Window;
+    declare var window: _Window;
 
     interface PaymentOptions  {
         merchantCode: string,
@@ -29,33 +31,37 @@
 
         callback: Function,
 
+         //Lib params
         text?: string
-
         debug?: boolean,
+        disableAutoKobo?: boolean
 
     }
 
     const props = defineProps<PaymentOptions>();
     const paymentOptions = toRefs<PaymentOptions>(props);
-    const loadstate = ref<{loaded: boolean}>({loaded: false});
+    const readyState = ref<boolean>(false);
     const emit = defineEmits(["error"])
     
  
-    const initPayment = async () =>  {
+    function MakePayment(){
 
-        if(!loadstate.value.loaded){
-            return;
+        if(!readyState.value){
+            emit('error', "Payment not ready yet");
+            return false;
         }
+
+        const koboMultiple = (paymentOptions.disableAutoKobo.value === true ? 1 : 100);
 
         const _paymentOptions = {
             merchant_code: paymentOptions.merchantCode.value || "",
             pay_item_id: paymentOptions.payItemID.value || "",
-            amount: paymentOptions.amount.value,
+            amount: paymentOptions.amount.value * koboMultiple,
             site_redirect_url: paymentOptions.redirectURL.value || "",
             onComplete: paymentOptions.callback.value,
             mode: paymentOptions.mode.value || 'TEST',
             txn_ref: paymentOptions.transactionReference.value,
-            currency: paymentOptions.currency.value || '566',
+            currency: paymentOptions.currency.value || 566,
             pay_item_name: paymentOptions.payItemName.value,
             cust_name: paymentOptions.customerName.value || '',
             cust_email: paymentOptions.customerEmail.value || "",
@@ -63,32 +69,34 @@
             cust_mobile_no: paymentOptions.customerMobileNo.value || ''
         }
 
-      try {
-        window.webpayCheckout(_paymentOptions);
-      } catch (error) {
-        emit('error', paymentOptions.debug.value == true ? error : "Payment failed! check network and try again"); 
-      }
+        try {
+          window.webpayCheckout(_paymentOptions);
+        } catch (error) {
+          emit('error', paymentOptions.debug.value == true ? error : "Payment failed! check network and try again"); 
+        }
+    }
+
+
+    async function Initialize(){
+        try {
+            readyState.value =  await scriptLoader(paymentOptions.mode.value);
+        } catch (error) {
+            readyState.value = false;
+            emit('error', "Payment could not be initialized");
+        }
     }
 
 
     onBeforeMount(() => {
-        scriptLoader(paymentOptions.mode.value, (err: any, status: boolean) =>{
-            if(err) throw new Error("Payment script load failed")
-            loadstate.value.loaded = status;
-        });
+        Initialize()
     })
 
     onMounted(() => {
-        console.log(paymentOptions.text.value)
+       
     })
 
     onUnmounted(() => {
       
     })
-
     
 </script>
-
-<style>
-  
-</style>

@@ -10,7 +10,10 @@
 > 
 **Note**: You need a [Quickteller Business](https://business.quickteller.com) to obtain the required `code/keys`.
 
+
 ![Demo Image](interswitch.png?raw=true "Demo Image")
+
+![Demo Image](vue-interswitch.png?raw=true "Demo Image")
 
 ## Installation
 To install, run:
@@ -82,13 +85,18 @@ The template will look as seen below
         text="Pay Now"
         mode='TEST'
         :transactionReference="Date.now().toString()" 
-        :amount="10000"
+        :amount="100" 
         class="custom, bootstrap or tailwind class here"
         :callback="onCallback"
     />
   </main>
+  // Note that amount should be the actuall amount, assen if payment is 1,000 enter 1000 as the amount, the module automatically multiplies the amount by 100 so as to meet the requirement of "amount should be in kobo"
+
+
 </template> 
 ```
+
+
 
 ## Handle Error Event
 To handle errors, an event is emitted when there is an error, hence binding an `function` to handle the error and get the error message or error stack trace (for `debug=true` mode only). Below is a guide
@@ -122,12 +130,12 @@ To handle errors, an event is emitted when there is an error, hence binding an `
 **Note:**
  - `debug=true` is not needed for `production` as `debug` is automatically false if not included.
  - **merchantCode** and **payItemID** can be gotten on your [Quickteller Business dashboard](https://business.quickteller.com/developertools)
- - **amount** must be in kobo
+ - **amount** must be in kobo **`Hence, that has been handled, every amount provided is automatically multiplied by 100 within library logic`**
 
 
 
 ## Parameters
-Below is a list of all the supported parameters.
+Below is a list of all the Interswitch official supported parameters.
 
 | Parameters           | Data Type                 | Required | Description                                                                                                                                                                                                                                         |
 |----------------------|---------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -172,6 +180,15 @@ After a transaction, a sample response from the callback function will be like s
 
 if within your response, `desc` messsage reads `MERCHANT_OR_PAYMENT_ITEM_DOES_NOT_EXIST` and other fields shows `undefined` it implies information supplied might not be correct.
 
+
+## Extra Library Parameters
+Below is a list of all the Interswitch official supported parameters.
+
+| Parameters           | Data Type                 | Required | Description                                                                                                                                                                                                                                         |
+|----------------------|---------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| text         | string                   | true     | It specifies the text to display on the button.
+| debug        | boolean                  | false    | Helps to show raw stack trace error for development purposes
+| disableAutoKobo         |  boolean       | false    | it is optional and it specifies if automatic multiplication of `amount` should apply or note. It is `false` by default. setting `disableAutoKobo=true` will allow developer to manually multiply `amount` with 100  for kobo
 
 **NOTE:**
 The key 'resp' gives the final status of the transaction.  
