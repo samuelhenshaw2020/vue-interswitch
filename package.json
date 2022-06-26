@@ -10,7 +10,7 @@
     "import": "./dist/interswitch.es.js",
     "require": "./dist/interswitch.umd.js"
   },
-  "types": "dist/index.d.ts",
+  "types": "dist/@types/**/*.d.ts",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -28,6 +28,7 @@
     "@vitejs/plugin-vue": "^2.3.3",
     "typescript": "^4.5.4",
     "vite": "^2.9.9",
+    "vite-plugin-dts": "^1.2.0",
     "vue-tsc": "^0.34.7"
   },
   "repository": {
@@ -40,11 +41,11 @@
   "author": {
     "name": "Samuel Henshaw"
   },
-  "keywords": ["Interswitch", "Quickteller" ,"Vue","Vuejs","Vue 2","Vue 3","Payment Gateway", "Payment","Online Payment"],
+  "keywords": ["Interswitch","Quickteller","Vue","Vuejs","Vue 3","Payment Gateway","Payment","Online Payment"],
   "description": "Vue package for integrating to Interswitch Quickteller Business to recieve payments",
   "engines": {
     "node": ">=10"
   },
-  "homepage": "https://github.com/iamraphson/vue-interswitch#readme"
-  
+  "homepage": "https://github.com/iamraphson/vue-interswitch#readme",
+  "access": "public"
 }

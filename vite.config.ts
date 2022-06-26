@@ -1,26 +1,29 @@
 import { defineConfig } from 'vite';
 import {resolve} from "path";
 import vue from '@vitejs/plugin-vue';
+import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   
-  plugins: [vue()],
+  plugins: [vue(), dts({
+    entryRoot: resolve(__dirname, "libs")
+  })],
   resolve: {
     alias: {
       '@/': new URL('./src/', import.meta.url).pathname,
     },
   },
-  
-  publicDir: resolve(__dirname, "src/public"),
+
   build: {
     
     target: 'esnext',
     lib: {
       entry: resolve(__dirname, 'libs/index.ts'),
-      name: 'Interswitch',
+      name: 'vue-interswitch',
       fileName: (format) => `interswitch.${format}.js`,
-      formats: ['umd','es']
+      formats: ['umd','es'],
+
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

@@ -1,5 +1,5 @@
 <script lang="ts">
-import Interswitch from '../libs';
+import {Interswitch} from '../libs';
 import {defineComponent, inject} from "vue"
 export default defineComponent({
   components: {

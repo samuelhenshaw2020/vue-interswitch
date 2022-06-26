@@ -5,11 +5,16 @@
 </template>
 
 <script lang="ts" setup>
-    import {ref, onBeforeMount, toRefs, defineEmits } from "vue";
+    import {ref, onBeforeMount, defineEmits } from "vue";
     import useScriptLoader from "./isw-loader";
-    import {_Window} from './interface'
 
-    declare const window: _Window;
+    interface _Window extends Window {
+        webpayCheckout(paymentOption: any): void
+    }
+
+    var window: _Window;
+
+
 
 
     interface PaymentOptions  {
@@ -29,15 +34,17 @@
 
         callback: Function,
 
-         //Lib params
+        //Lib params
         text?: string
         debug?: boolean,
         disableAutoKobo?: boolean
     }
+    
 
    
 
     const props = defineProps<PaymentOptions>();
+    
     const paymentOptions = ref<PaymentOptions>({
             merchantCode: "string",
             payItemID: "",
