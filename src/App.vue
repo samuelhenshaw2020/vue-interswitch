@@ -29,9 +29,9 @@ export default defineComponent({
     }
     }
 
-    const {iswCheckout}: any = inject("iswCheckout")
+    // const {iswCheckout}: any = inject("iswCheckout")
     const Paynow = () => {
-      iswCheckout(props)
+      // iswCheckout(props)
     }
 
     
@@ -43,7 +43,7 @@ export default defineComponent({
 <template>
   <main class="text-center">
       <h1 class="text-danger">Interswitch Payment </h1>
-      <!-- <Interswitch  
+      <Interswitch  
         merchantCode='MX93271'
         payItemID='Default_Payable_MX93271'
         customerEmail='samuelhenshaw2021@gmail.com'
@@ -57,9 +57,9 @@ export default defineComponent({
         :callback="onCallback"
         @error="onError"
         
-    /> -->
+    />
 
-    <button @click="Paynow">pay now</button>
+    <!-- <button @click="Paynow">pay now</button> -->
     
   </main>
 </template>

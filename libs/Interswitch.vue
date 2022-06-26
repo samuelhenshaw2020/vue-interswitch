@@ -7,7 +7,10 @@
 <script lang="ts" setup>
     import {ref, onBeforeMount, toRefs, defineEmits } from "vue";
     import useScriptLoader from "./isw-loader";
-    import {_window} from './interface'
+    import {_Window} from './interface'
+
+    declare const window: _Window;
+
 
     interface PaymentOptions  {
         merchantCode: string,
@@ -40,7 +43,7 @@
             payItemID: "",
             amount: 0,
             redirectURL: "",
-            callback: null,
+            callback: () => {},
             mode: "TEST",
             transactionReference: "",
             currency: "566",
@@ -62,6 +65,21 @@
             return false;
         }
 
+            paymentOptions.value.merchantCode= props.merchantCode;
+            paymentOptions.value.payItemID= props.payItemID;
+            paymentOptions.value.amount= props.amount;
+            paymentOptions.value.redirectURL= props.redirectURL;
+            paymentOptions.value.callback= props.callback;
+            paymentOptions.value.mode= props.mode;
+            paymentOptions.value.transactionReference= props.transactionReference;
+            paymentOptions.value.currency= props.currency;
+            paymentOptions.value.customerEmail= props.customerEmail;
+            paymentOptions.value.payItemName= props.payItemName;
+            paymentOptions.value.customerName= props.customerName;
+            paymentOptions.value.customerMobileNo= props.customerMobileNo;
+            paymentOptions.value.disableAutoKobo= ("disableAutoKobo" in props ? props.disableAutoKobo : false);
+            paymentOptions.value.debug= ("debug" in props  ? props.debug : false)
+
         const koboMultiple = (paymentOptions.value.disableAutoKobo === true ? 1 : 100);
 
         const _paymentOptions = {
@@ -81,8 +99,9 @@
         }
 
         try {
-          _window.webpayCheckout(_paymentOptions);
+          window.webpayCheckout(_paymentOptions);
         } catch (error) {
+            console.log(error)
           emit('error', paymentOptions.value.debug == true ? error : "Payment failed! check network and try again"); 
         }
     }
