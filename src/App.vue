@@ -29,7 +29,7 @@ export default defineComponent({
     }
     }
 
-    const {iswCheckout} = inject("iswCheckout")
+    const {iswCheckout}: any = inject("iswCheckout")
     const Paynow = () => {
       iswCheckout(props)
     }

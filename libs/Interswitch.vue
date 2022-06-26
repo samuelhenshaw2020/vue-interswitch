@@ -7,14 +7,7 @@
 <script lang="ts" setup>
     import {ref, onBeforeMount, toRefs, defineEmits } from "vue";
     import useScriptLoader from "./isw-loader";
-
-
-
-    interface _Window extends Window {
-        webpayCheckout(paymentOption: any): void
-    }
-
-    declare var window: _Window;
+    import {_window} from './interface'
 
     interface PaymentOptions  {
         merchantCode: string,
@@ -42,7 +35,22 @@
    
 
     const props = defineProps<PaymentOptions>();
-    const paymentOptions = toRefs<PaymentOptions>(props);
+    const paymentOptions = ref<PaymentOptions>({
+            merchantCode: "string",
+            payItemID: "",
+            amount: 0,
+            redirectURL: "",
+            callback: null,
+            mode: "TEST",
+            transactionReference: "",
+            currency: "566",
+            customerEmail: "",
+            payItemName: "",
+            customerName: "",
+            customerMobileNo: "",
+            disableAutoKobo: true,
+            debug: false
+    });
     const readyState = ref<boolean>(false);
     const emit = defineEmits(["error"])
     
@@ -54,35 +62,35 @@
             return false;
         }
 
-        const koboMultiple = (paymentOptions.disableAutoKobo.value === true ? 1 : 100);
+        const koboMultiple = (paymentOptions.value.disableAutoKobo === true ? 1 : 100);
 
         const _paymentOptions = {
-            merchant_code: paymentOptions.merchantCode.value || "",
-            pay_item_id: paymentOptions.payItemID.value || "",
-            amount: paymentOptions.amount.value * koboMultiple,
-            site_redirect_url: paymentOptions.redirectURL.value || "",
-            onComplete: paymentOptions.callback.value,
-            mode: paymentOptions.mode.value || 'TEST',
-            txn_ref: paymentOptions.transactionReference.value,
-            currency: paymentOptions.currency.value || 566,
-            pay_item_name: paymentOptions.payItemName.value,
-            cust_name: paymentOptions.customerName.value || '',
-            cust_email: paymentOptions.customerEmail.value || "",
-            cust_id: paymentOptions.customerID.value || "",
-            cust_mobile_no: paymentOptions.customerMobileNo.value || ''
+            merchant_code: paymentOptions?.value.merchantCode || "",
+            pay_item_id: paymentOptions?.value.payItemID || "",
+            amount: paymentOptions?.value.amount * koboMultiple,
+            site_redirect_url: paymentOptions?.value.redirectURL || "",
+            onComplete: paymentOptions?.value.callback,
+            mode: paymentOptions.value.mode || 'TEST',
+            txn_ref: paymentOptions.value.transactionReference,
+            currency: paymentOptions.value.currency,
+            pay_item_name: paymentOptions.value.payItemName,
+            cust_name: paymentOptions.value.customerName || '',
+            cust_email: paymentOptions.value.customerEmail || "",
+            cust_id: paymentOptions.value.customerID || "",
+            cust_mobile_no: paymentOptions.value.customerMobileNo || ''
         }
 
         try {
-          window.webpayCheckout(_paymentOptions);
+          _window.webpayCheckout(_paymentOptions);
         } catch (error) {
-          emit('error', paymentOptions.debug.value == true ? error : "Payment failed! check network and try again"); 
+          emit('error', paymentOptions.value.debug == true ? error : "Payment failed! check network and try again"); 
         }
     }
 
 
     async function Initialize(){
         try {
-            readyState.value =  await useScriptLoader(paymentOptions.mode.value);
+            readyState.value =  await useScriptLoader(paymentOptions.value.mode);
         } catch (error) {
             readyState.value = false;
             emit('error', "Payment could not be initialized");
