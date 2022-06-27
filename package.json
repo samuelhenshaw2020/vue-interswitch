@@ -12,7 +12,7 @@
   },
   "types": "dist/index.d.ts",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -30,10 +30,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/iamraphson/vue-interswitch.git"
+    "url": "https://github.com/samuelhenshaw2020/vue-interswitch.git"
   },
   "bugs": {
-    "url": "https://github.com/iamraphson/vue-interswitch/issues"
+    "url": "https://github.com/samuelhenshaw2020/vue-interswitch/issues"
   },
   "author": {
     "name": "Samuel Henshaw"
@@ -52,7 +52,7 @@
   "engines": {
     "node": ">=10"
   },
-  "homepage": "https://github.com/iamraphson/vue-interswitch#readme",
+  "homepage": "https://github.com/samuelhenshaw2020/vue-interswitch#readme",
   "access": "public",
   "license": "MIT"
 }

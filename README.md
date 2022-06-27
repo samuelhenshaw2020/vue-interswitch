@@ -11,9 +11,9 @@
 **Note**: You need a [Quickteller Business](https://business.quickteller.com) to obtain the required `code/keys`.
 
 
-![Demo Image](interswitch.png?raw=true "Demo Image")
+<!-- ![Demo Image](interswitch.png?raw=true "Demo Image")
 
-![Demo Image](vue-interswitch.png?raw=true "Demo Image")
+![Demo Image](vue-interswitch.png?raw=true "Demo Image") -->
 
 ## Installation
 To install, run:
@@ -22,7 +22,7 @@ npm install vue-interswitch
 ```
 
 ## Usage
-This package has two ways of integrating with vue project - as `compenent` and `plugin`
+This package has two ways of integrating with vue project - as `component` and `plugin`
 
 ### As Component
 Below are the various implementations using options or composition api
