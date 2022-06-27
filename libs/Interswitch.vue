@@ -5,16 +5,18 @@
 </template>
 
 
-
-<script lang="ts" setup>
-    import {ref, onBeforeMount, defineEmits } from "vue";
-    import useScriptLoader from "./isw-loader";
-
-    interface _Window extends Window {
+<script lang="ts">
+     interface _Window extends Window {
         webpayCheckout(paymentOption: any): void
     }
     
     declare var window: _Window;
+</script>
+
+
+<script lang="ts" setup>
+    import {ref, onBeforeMount, defineEmits,defineProps } from "vue";
+    import useScriptLoader from "./isw-loader";
 
     interface PaymentOptions  {
         merchantCode: string,
