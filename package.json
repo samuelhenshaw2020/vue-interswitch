@@ -11,7 +11,7 @@
     "require": "./dist/interswitch.umd.js"
   },
   "types": "dist/index.d.ts",
-  "private": true,
+  "private": false,
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
