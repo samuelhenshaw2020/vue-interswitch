@@ -5,7 +5,6 @@ import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  
   plugins: [vue(), dts({
     entryRoot: resolve(__dirname, "libs")
   })],
@@ -16,7 +15,7 @@ export default defineConfig({
   },
 
   build: {
-    
+    minify: "esbuild",
     target: 'esnext',
     lib: {
       entry: resolve(__dirname, 'libs/index.ts'),
