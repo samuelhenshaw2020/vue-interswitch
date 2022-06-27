@@ -1,4 +1,3 @@
-import { AppContext } from "vue";
 import useScriptLoader from "./isw-loader";
 
 interface _Window extends Window {
