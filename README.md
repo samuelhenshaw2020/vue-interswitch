@@ -83,8 +83,8 @@ The template will look as seen below
 <template>
   <main>
       <Interswitch  
-        merchantCode='MX26070'
-        payItemID='Default_Payable_MX26070'
+        merchantCode='MX#####'
+        payItemID='Default_Payable_MX#####'
         customerEmail='johndoe@gmail.com'
         redirectURL="http://localhost:3000"
         text="Pay Now"
@@ -156,9 +156,9 @@ const iswcheckout: any = inject('iswcheckout')
 
 const MakePayment = () => {
   const props = {
-      merchantCode: 'MX93271',
-      payItemID: 'Default_Payable_MX93271',
-      customerEmail: 'samuelhenshaw2021@gmail.com',
+      merchantCode: 'MX#####',
+      payItemID: 'Default_Payable_MX#####',
+      customerEmail: 'johndoe@gmail.com',
       redirectURL: 'http://localhost:3000',
       text: 'Pay Now',
       mode: 'TEST',
