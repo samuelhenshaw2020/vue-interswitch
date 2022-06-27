@@ -11,9 +11,9 @@
 **Note**: You need a [Quickteller Business](https://business.quickteller.com) to obtain the required `code/keys`.
 
 
-<!-- ![Demo Image](interswitch.png?raw=true "Demo Image")
+![](https://github.com/samuelhenshaw2020/vue-interswitch#.images/interswitch.png?raw=true)
 
-![Demo Image](vue-interswitch.png?raw=true "Demo Image") -->
+![](.images/vue-interswitch.png?raw=true)
 
 ## Installation
 To install, run:
