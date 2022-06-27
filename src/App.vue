@@ -1,6 +1,7 @@
 <script lang="ts">
 // import Interswitch from '../libs';
 import {defineComponent, inject} from "vue"
+
 export default defineComponent({
   components: {
     // Interswitch
@@ -29,9 +30,9 @@ export default defineComponent({
     }
     }
 
-    // const {iswCheckout}: any = inject("iswCheckout")
+    const iswcheckout: any = inject("iswcheckout");
     const Paynow = () => {
-      // iswCheckout(props)
+      iswcheckout(props)
     }
 
     
@@ -59,7 +60,7 @@ export default defineComponent({
         
     /> -->
 
-    <!-- <button @click="Paynow">pay now</button> -->
+    <button @click="Paynow">pay now</button>
     
   </main>
 </template>

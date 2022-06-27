@@ -1,4 +1,4 @@
-# Interswitch Component for Vue 3.x
+# Interswitch for Vue 3.x
 
 [![Issues](	https://img.shields.io/github/issues/samuelhenshaw2020/vue-interswitch)](https://github.com/samuelhenshaw2020/vue-interswitch/issues)
 [![Forks](	https://img.shields.io/github/forks/samuelhenshaw2020/vue-interswitch)](https://github.com/samuelhenshaw2020/vue-interswitch/network/members)
@@ -22,7 +22,12 @@ npm install vue-interswitch
 ```
 
 ## Usage
-Below are the various implementation using options or composition api
+This package has two ways of integrating with vue project - as `compenent` and `plugin`
+
+### As Component
+Below are the various implementations using options or composition api
+
+
 ```js
 
 // COMPOSITION API with defineComponent (Typescipt)
@@ -124,13 +129,57 @@ To handle errors, an event is emitted when there is an error, hence binding an `
 ```
 
 
+### As Plugin
 
+`vue-interswitch` package exposes a plugin `isw`. The plugin can be imported in `main.(ts|js) ` as seen below
+
+```js
+import { createApp } from 'vue'
+import App from './App.vue';
+import {isw} from "vue-interswitch"; // here
+
+const app = createApp(App);
+app.use(isw) //here 
+
+app.mount('#app')
+
+
+```
+According to [vue documentation](https://vuejs.org/guide/reusability/plugins.html#writing-a-plugin) when creating custom plugin, they have to be provided with `app.provide(key, value)` and then injected into app component using `inject(key)`, hence, in your component inject `iswcheckout`. see below
+
+```js
+<script setup lang="ts">
+import { inject } from 'vue'
+
+// make sure to cast iswcheckout as any to avoid 'This expression is not callable' error
+const iswcheckout: any = inject('iswcheckout')
+
+const MakePayment = () => {
+  const props = {
+      merchantCode: 'MX93271',
+      payItemID: 'Default_Payable_MX93271',
+      customerEmail: 'samuelhenshaw2021@gmail.com',
+      redirectURL: 'http://localhost:3000',
+      text: 'Pay Now',
+      mode: 'TEST',
+      transactionReference: Date.now().toString(),
+      amount: 100, //there is no automatic multiplication here.....manually multiply amount with 100
+      callback: (response: any) => {
+        console.log('response: ', response)
+      }
+  }
+
+  iswcheckout(props)
+}
+</script>
+
+```
 
 
 **Note:**
  - `debug=true` is not needed for `production` as `debug` is automatically false if not included.
  - **merchantCode** and **payItemID** can be gotten on your [Quickteller Business dashboard](https://business.quickteller.com/developertools)
- - **amount** must be in kobo **`Hence, that has been handled, every amount provided is automatically multiplied by 100 within library logic`**
+ - **amount** must be in kobo **`Hence, that has been handled (with exception of the plugin approach), every amount provided is automatically multiplied by 100 within library logic`**
 
 
 

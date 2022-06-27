@@ -34,7 +34,7 @@ export default {
      * @param {never} options No options is required
      */
     install(app: any, options: any){
-        const iswCheckout = async (paymentOptions: ISWPluginPaymentOptions) => {
+        const iswcheckout = async (paymentOptions: ISWPluginPaymentOptions) => {
             return new Promise(async (resolve, reject) => {
                 try {
 
@@ -65,7 +65,7 @@ export default {
             })
         } 
 
-        app.config.globalProperties.$iswCheckout = iswCheckout;
-        app.provide("iswCheckout", {iswCheckout});
+        app.config.globalProperties.$isw = iswcheckout;
+        app.provide("iswcheckout", iswcheckout);
     }
 }
