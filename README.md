@@ -6,9 +6,9 @@
 [![Pull Request](https://img.shields.io/github/issues-pr/samuelhenshaw2020/vue-interswitch)](https://github.com/samuelhenshaw2020/vue-interswitch/stargazers)
 [![Stats](https://img.shields.io/github/watchers/samuelhenshaw2020/vue-interswitch)](https://github.com/samuelhenshaw2020/vue-interswitch/stargazers)
 
-> Interswitch community vue package that integrates with vue apps for Quickteller Business for recieve payments online.
+> Interswitch Community Vue3 package to easily integrate to Quickteller Business to recieve payments online.
 > 
-**Note**: You need a [Quickteller Business](https://business.quickteller.com) to obtain the required `code/keys`.
+**Note**: You need an account at [Quickteller Business](https://business.quickteller.com) to obtain the required `credentials` to proceed.
 
 
 ![](https://github.com/samuelhenshaw2020/vue-interswitch/blob/main/.images/interswitch.png?raw=true)
@@ -18,11 +18,11 @@
 ## Installation
 To install, run:
 ```bash
-npm install vue-interswitch
+npm install vue-interswitch --save
 ```
 
 ## Usage
-This package has two ways of integrating with vue project - as `component` and `plugin`
+This package has two ways of integrating with vue project - `component` and `plugin` methods
 
 ### As Component
 Below are the various implementations using options or composition api
@@ -93,9 +93,9 @@ The template will look as seen below
         :amount="100" 
         class="custom, bootstrap or tailwind class here"
         :callback="onCallback"
-    />
+      />
   </main>
-  // Note that amount should be the actuall amount, assen if payment is 1,000 enter 1000 as the amount, the module automatically multiplies the amount by 100 so as to meet the requirement of "amount should be in kobo"
+  // Note that amount should be the actual amount, that is, if payment is 1,000 enter 1000 as the amount, the module automatically multiplies the amount by 100 so as to meet the requirement of "amount should be in kobo"
 
 
 </template> 
@@ -104,10 +104,10 @@ The template will look as seen below
 
 
 ## Handle Error Event
-To handle errors, an event is emitted when there is an error, hence binding an `function` to handle the error and get the error message or error stack trace (for `debug=true` mode only). Below is a guide
+Within the module, an event emitter is used to emit errors, hence binding a `function` to handle the error and get the error message or error stack trace (for `debug=true` mode only). Below is a guide
 
 
-**Note**: to get dev level error with stack trace set `debug=true` on the `<Interswitch :debug="true" />` component then bind a function to the emitter event 
+**Note**: to get development level error with stack trace set `debug=true` on the `<Interswitch :debug="true" />` component then bind function to the  `@error` event on the component. see guide below.  
 
 ```js
     /**
@@ -131,7 +131,7 @@ To handle errors, an event is emitted when there is an error, hence binding an `
 
 ### As Plugin
 
-`vue-interswitch` package exposes a plugin `isw`. The plugin can be imported in `main.(ts|js) ` as seen below
+`vue-interswitch` package also exposes a plugin `isw`.  Imported the plugin in `main.(ts|js) ` file as seen below
 
 ```js
 import { createApp } from 'vue'
@@ -145,7 +145,7 @@ app.mount('#app')
 
 
 ```
-According to [vue documentation](https://vuejs.org/guide/reusability/plugins.html#writing-a-plugin) when creating custom plugin, they have to be provided with `app.provide(key, value)` and then injected into app component using `inject(key)`, hence, in your component inject `iswcheckout`. see below
+According to [vue documentation](https://vuejs.org/guide/reusability/plugins.html#writing-a-plugin) when creating custom plugin,  `app.provide(key, value)` makes the plugin available for injecting using `inject(key)`, hence, in your component inject `iswcheckout`. see below
 
 ```js
 <script setup lang="ts">
@@ -180,6 +180,7 @@ const MakePayment = () => {
  - `debug=true` is not needed for `production` as `debug` is automatically false if not included.
  - **merchantCode** and **payItemID** can be gotten on your [Quickteller Business dashboard](https://business.quickteller.com/developertools)
  - **amount** must be in kobo **`Hence, that has been handled (with exception of the plugin approach), every amount provided is automatically multiplied by 100 within library logic`**
+ - Make sure to cast `iswcheckout` as types if any `any` to avoid 'This expression is not callable' error `(Typescript use only)`
 
 
 
@@ -231,16 +232,16 @@ if within your response, `desc` messsage reads `MERCHANT_OR_PAYMENT_ITEM_DOES_NO
 
 
 ## Extra Library Parameters
-Below is a list of all the Interswitch official supported parameters.
+Below are additional list of parameters.
 
 | Parameters           | Data Type                 | Required | Description                                                                                                                                                                                                                                         |
 |----------------------|---------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | text         | string                   | true     | It specifies the text to display on the button.
 | debug        | boolean                  | false    | Helps to show raw stack trace error for development purposes
-| disableAutoKobo         |  boolean       | false    | it is optional and it specifies if automatic multiplication of `amount` should apply or note. It is `false` by default. setting `disableAutoKobo=true` will allow developer to manually multiply `amount` with 100  for kobo
+| disableAutoKobo         |  boolean       | false    | it is optional and it specifies if automatic multiplication of `amount` should apply or not. It is `false` by default. setting `disableAutoKobo=true` will allow developer to manually multiply `amount` with 100  to realize amount in kobo
 
 **NOTE:**
-The key 'resp' gives the final status of the transaction.  
+The key `resp` gives the final status of the transaction.  
 There are quite a number of response codes that can be returned, the full list can be viewed [here](https://sandbox.interswitchng.com/docbase/docs/webpay/response-codes/)
 
 ## - Handling the Response 
