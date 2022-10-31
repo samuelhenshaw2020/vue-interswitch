@@ -1,6 +1,4 @@
 
-import {onUnmounted} from 'vue';
-
 enum Modes {
     TEST="TEST",
     LIVE="LIVE"
@@ -26,16 +24,19 @@ const useScriptLoader =  (mode: string): Promise<boolean> => {
     
         document.getElementsByTagName("head")[0].appendChild(script)
 
-        const onLoad = () => {resolve(true)}
-        script.addEventListener('load',  onLoad);
-
-        const onError = (err: any) => {reject(err)}
-        script.addEventListener('error', onError)
-        
-        onUnmounted(() => {
+        const onLoad = () => {
+            resolve(true);
             script.removeEventListener('error', onError);
             script.removeEventListener('load', onLoad);
-        });
+        }
+        script.addEventListener('load',  onLoad);
+
+        const onError = (err: any) => {
+            reject(err);
+            script.removeEventListener('error', onError);
+            script.removeEventListener('load', onLoad);
+        }
+        script.addEventListener('error', onError)
     });
 }
 
